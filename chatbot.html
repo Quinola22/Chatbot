@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="chatbot.js">
+    <title>ChatBot Project</title>
+</head>
+<body onload="start()">
+    <div id="main">
+        <h2>ChatBot</h2>
+
+        <div id="msg_area">
+            <div id="robot">
+                <div id="bot">
+                    <h3>Quin ChatBot</h3>
+                </div>
+            </div>
+        </div>
+        <div id="input">
+            <input type="text" placeholder="New Message" id="text">
+            <button id="send"> Send <i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" 
+    integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+     function start(){
+    let res_msg = document.createElement('div');
+    res_msg.innerHTML = "Hello, this  is Quin. How can I help you?";
+    res_msg.setAttribute("class","left");
+
+    document.getElementById('msg-area').appendChild(
+        res_msg);
+}
+document.getElementById('send').addEventListener("click", async (e) =>
+{
+    e.preventDefault();
+
+    var req = document.getElementById('text').value;
+
+    if(req == undefined || req == ""){
+
+    }
+    else{
+        let res = "";
+            await axios.get('https://api.monkedev.com/fun/chat?msg=${req}').then(data =>{
+            res = JSON.stringify(data.data.response)
+            })
+        let msg_req = document.createElement('div');
+        let msg_res = document.createElement('div');
+
+        let Con1 = document.createElement('div');
+        let Con2 = document.createElement('div');
+
+        Con1.setAttribute("class", "msgCon1");
+        Con2.setAttribute("class", "msgCon2");
+
+        msg_req.innerHTML = req ;
+        msg_res.innerHTML = res ;
+
+        msg_req.setAttribute("class", "right");
+        msg_res.setAttribute("class", "left");
+
+        let message = document.getElementById('msg_area');
+
+        message.appendChild(Con1);
+        message.appendChild(Con2);
+
+        Con1.appendChild(msg_req);
+        Con2.appendChild(msg_res);
+
+        document.getElementById('text').value = "";
+
+        function scroll(){
+            var scrollmsg = document.getElementById('msg-area');
+            scrollmsg.scrollTop = scrollmsg, 
+            scrollheight;
+        }
+        scroll();
+    }
+});
+</script>
+</body>
+</html>
